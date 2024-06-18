@@ -1,3 +1,3 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿Publisher.Publicador publicador = new Publisher.Publicador();
 
-Console.WriteLine("Criei uma nova branch!");
+publicador.Publicar();
