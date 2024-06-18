@@ -20,7 +20,7 @@ public static class Program
         {
             var body = eventArgs.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
-            Console.WriteLine($"Received message: {message}");
+            Console.WriteLine($"Received message:   {message}");
         };
         
         model.BasicConsume(queueName, true, consumer);
