@@ -6,7 +6,7 @@ public static class Program
 {
     public static void Main()
     {
-        var connectionFactory = new ConnectionFactory() { HostName = "localhost" };
+        var connectionFactory = new ConnectionFactory() { HostName = "localhos t" };
         using var connection = connectionFactory.CreateConnection();
         using var model = connection.CreateModel();
         
