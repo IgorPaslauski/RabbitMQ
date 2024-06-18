@@ -6,7 +6,7 @@ public static class Program
 {
     public static void Main()
     {
-        var connectionFactory = new ConnectionFactory() { HostName = "localhost" };
+        var connectionFactory = new ConnectionFactory() { HostName = "localhos t" };
         using var connection = connectionFactory.CreateConnection();
         using var model = connection.CreateModel();
         
@@ -20,7 +20,7 @@ public static class Program
         {
             var body = eventArgs.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
-            Console.WriteLine($"Received message: {message}");
+            Console.WriteLine($"Received    message:   {message}");
         };
         
         model.BasicConsume(queueName, true, consumer);
