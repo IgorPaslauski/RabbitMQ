@@ -13,14 +13,14 @@ public static class Program
         model.ExchangeDeclare("exchange-name", ExchangeType.Direct);
         
         var queueName = model.QueueDeclare().QueueName;
-        model.QueueBind(queueName, "exchange-name", "routing-key");
+        model.QueueBind(queueName, "exchange-name", "routing-key2");
         
         var consumer = new EventingBasicConsumer(model);
         consumer.Received += (sender, eventArgs) =>
         {
             var body = eventArgs.Body.ToArray();
             var message = Encoding.UTF8.GetString(body);
-            Console.WriteLine($"Received    message:   {message}");
+            Console.WriteLine($"Received message: {message}");
         };
         
         model.BasicConsume(queueName, true, consumer);

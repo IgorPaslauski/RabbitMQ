@@ -10,42 +10,24 @@ public class Publicador
         var connectionFactory = CreateConnectionFactory();
         using var connection = CreateConnection(connectionFactory);
         using var model = CreateModel(connection);
-        
         model.ExchangeDeclare("exchange-name", ExchangeType.Direct);
+        model.QueueDeclare("queue-name", durable: true, exclusive: false, autoDelete: false);
         
-        var properties = model.CreateBasicProperties();
-        properties.Persistent = true;
-        
-        var message = "Hello, World!";
-        var body = Encoding.UTF8.GetBytes(message);
-        
-        model.BasicPublish("exchange-name", "routing-key", properties, body);
-
         while (true)
         {
-            Console.WriteLine("Press [enter] to publish a message or any other key to exit.");
-            var key = Console.ReadKey();
-            if (key.Key != ConsoleKey.Enter)
+            Thread.Sleep(1000);
+                
+            for (var i = 0; i < 10; i++)
             {
-                break;
+                var message = $"Message {i}";
+
+                model.BasicPublish("exchange-name", i % 2 == 0 ? "routing-key" : "routing-key2", null,
+                    Encoding.UTF8.GetBytes(message));
             }
             
-            model.BasicPublish("exchange-name", "routing-key", properties, body);
         }
     }
-    
-    public ConnectionFactory CreateConnectionFactory()
-    {
-        return new ConnectionFactory() { HostName = "localhost" };
-    }
-    
-    public IConnection CreateConnection(ConnectionFactory connectionFactory)
-    {
-        return connectionFactory.CreateConnection();
-    }
-    
-    public IModel CreateModel(IConnection connection)
-    {
-        return connection.CreateModel();
-    }
+    private static ConnectionFactory CreateConnectionFactory() => new() { HostName = "localhost" };
+    private static IConnection CreateConnection(ConnectionFactory connectionFactory) => connectionFactory.CreateConnection();
+    private static IModel CreateModel(IConnection connection) => connection.CreateModel();
 }
